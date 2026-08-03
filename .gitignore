@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Production & Build outputs
+dist/
+**/dist/
+build/
+**/build/
+
+# Environment Variables (Keep .env.example tracked, ignore local .env)
+.env
+!.env.example
+
+# Logs & Temporary files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local database & MinIO volumes
+minio_data/
+postgres_data/
+
+# Uncompressed large SQL dumps
+init-db/03-boundaries*.sql
+init-db/04-boundaries*.sql
+

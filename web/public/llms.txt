@@ -1,0 +1,40 @@
+# Wilayah Indonesia REST API & Geospasial Boundaries
+
+> Layanan Open REST API untuk Data Kode & Wilayah Administrasi Pemerintahan Indonesia (Provinsi, Kabupaten/Kota, Kecamatan, Kelurahan/Desa), Data Pulau, Logo Resmi MinIO Storage, dan Polygon Boundaries (GeoJSON) berbasis Kepmendagri.
+
+## Base URLs
+- REST API Base: `/api` (atau `http://localhost:3000/api`)
+- OpenAPI / Swagger Docs: `/api/docs`
+- MinIO Storage Public Logo: `/wilayah-logo/{kode}.png`
+
+## Main API Endpoints
+
+### 1. Administrative Regions (Wilayah)
+- `GET /api/provinces`: Daftar seluruh 38 Provinsi. Mengembalikan array `{ kode, nama, logo_url }`.
+- `GET /api/provinces/:code`: Detail Provinsi berdasarkan kode 2-digit.
+- `GET /api/provinces/:code/regencies`: Daftar Kabupaten/Kota di bawah provinsi tertentu.
+- `GET /api/regencies`: Daftar Kabupaten/Kota dengan filter opsional `province_code`.
+- `GET /api/regencies/:code/districts`: Daftar Kecamatan di bawah Kabupaten/Kota.
+- `GET /api/districts/:code/villages`: Daftar Kelurahan/Desa di bawah Kecamatan.
+- `GET /api/villages/:code`: Detail Kelurahan/Desa.
+- `GET /api/wilayah/search?name={query}&level={1|2|3|4}&page=1&limit=20`: Pencarian nama wilayah realtime.
+- `GET /api/wilayah/:code`: Detail lengkap wilayah beserta parent codes, `coordinates` `{lat, lng}`, GeoJSON polygon `boundary`, `logo_url`, `penduduk`, dan `luas`.
+
+### 2. Geospasial Boundaries (Polygon Coordinates)
+- `GET /api/boundaries/:code`: Mendapatkan koordinat centroid (`lat`, `lng`) serta polygon coordinates (GeoJSON path) untuk kode wilayah.
+- `GET /api/boundaries/:code/children`: Mendapatkan polygon boundaries seluruh sub-wilayah di bawah kode induk.
+
+### 3. Islands (Pulau Indonesia)
+- `GET /api/islands`: Daftar pulau-pulau Indonesia dilengkapi koordinat latitude & longitude.
+
+## Format Kode Wilayah
+- Level 1 (Provinsi): 2 digit angka (contoh: `11` = Aceh, `32` = Jawa Barat)
+- Level 2 (Kabupaten/Kota): 5 karakter (contoh: `32.73` = Kota Bandung)
+- Level 3 (Kecamatan): 8 karakter (contoh: `32.73.01` = Kec. Regol)
+- Level 4 (Kelurahan/Desa): 13 karakter (contoh: `32.73.01.1001` = Kel. Balonggede)
+
+## Panduan Penggunaan AI Agent / LLM
+Untuk menelusuri hirarki wilayah secara terstruktur:
+1. Panggil `GET /api/provinces` untuk mendapatkan daftar provinsi.
+2. Panggil `GET /api/provinces/{province_code}/regencies` untuk daftar kabupaten/kota.
+3. Panggil `GET /api/boundaries/{code}` untuk mengambil koordinat polygon peta geospasial.

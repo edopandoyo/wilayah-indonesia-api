@@ -1,0 +1,104 @@
+name: wilayah-indonesia
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: wilayah_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME:-wilayah_db}
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d ${DB_NAME:-wilayah_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:RELEASE.2024-03-03T17-50-39Z
+    container_name: wilayah_minio
+    restart: always
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  minio_setup:
+    image: minio/mc:latest
+    container_name: wilayah_minio_setup
+    depends_on:
+      minio:
+        condition: service_healthy
+    volumes:
+      - ./wilayah_logo:/logos:ro
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set myminio http://minio:9000 ${MINIO_ROOT_USER:-minioadmin} ${MINIO_ROOT_PASSWORD:-minioadmin};
+      mc mb myminio/${MINIO_BUCKET_NAME:-wilayah-logo} --ignore-existing;
+      mc anonymous set download myminio/${MINIO_BUCKET_NAME:-wilayah-logo};
+      echo 'Uploading province logos...';
+      mc cp --recursive /logos/prov/img/ myminio/${MINIO_BUCKET_NAME:-wilayah-logo}/;
+      echo 'Uploading regency logos...';
+      for f in /logos/kab/*/img/*.png; do
+        if [ -f \"$$f\" ]; then
+          mc cp \"$$f\" myminio/${MINIO_BUCKET_NAME:-wilayah-logo}/;
+        fi
+      done;
+      echo 'MinIO setup and logo sync completed successfully!';
+      "
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: wilayah_api
+    restart: always
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      PORT: ${PORT:-3000}
+      DB_HOST: ${DB_HOST:-db}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_NAME: ${DB_NAME:-wilayah_db}
+      MINIO_PUBLIC_URL: ${MINIO_PUBLIC_URL:-http://localhost/wilayah-logo}
+    depends_on:
+      db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-}
+        VITE_MINIO_PUBLIC_URL: ${VITE_MINIO_PUBLIC_URL:-}
+    container_name: wilayah_web
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+  minio_data:

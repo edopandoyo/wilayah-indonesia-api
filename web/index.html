@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags -->
+    <title>Wilayah Indonesia REST API & Data Geospasial Boundaries</title>
+    <meta name="title" content="Wilayah Indonesia REST API & Data Geospasial Boundaries" />
+    <meta name="description" content="REST API Wilayah Indonesia berbasis NestJS, PostgreSQL, MinIO Logo Storage, dan Data Geospasial Boundaries 90.823 Polygon (GeoJSON) berdasarkan Kepmendagri terbaru." />
+    <meta name="keywords" content="API Wilayah Indonesia, REST API Indonesia, Data Kode Wilayah, GeoJSON Indonesia, Boundary Wilayah Indonesia, NestJS API, PostgreSQL Wilayah, Data Provinsi Kabupaten Kecamatan Desa" />
+    <meta name="author" content="Wilayah Indonesia Open API Team" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0f172a" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="/" />
+    <meta property="og:title" content="Wilayah Indonesia REST API & Data Geospasial Boundaries" />
+    <meta property="og:description" content="Layanan REST API & Data Geospasial Wilayah Indonesia (38 Provinsi, 514 Kab/Kota, 7.277 Kecamatan, 83.771 Desa/Kelurahan) dilengkapi Logo MinIO & Leaflet Map." />
+    <meta property="og:site_name" content="Wilayah Indonesia API" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Wilayah Indonesia REST API & Data Geospasial Boundaries" />
+    <meta name="twitter:description" content="REST API Kode & Wilayah Indonesia lengkap dengan Logo MinIO Storage & Polygon Boundaries Peta Geospasial." />
+
+    <!-- Leaflet Map Stylesheet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- Machine-Readable AI Agent Link Discovery -->
+    <link rel="help" type="text/plain" href="/llms.txt" title="LLM Agent Manifest" />
+    <link rel="alternate" type="application/swagger+json" href="/api/docs-json" title="OpenAPI Spec" />
+
+    <!-- JSON-LD Structured Data for AI Agents & Search Engines -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "DataCatalog",
+      "name": "Wilayah Indonesia REST API & Boundaries Geospasial",
+      "description": "Katalog Data Wilayah Administrasi Indonesia, Data Geospasial Polygon Boundaries, Data Pulau, dan Logo MinIO Storage berbasis Kepmendagri.",
+      "keywords": ["Wilayah Indonesia", "REST API", "GeoJSON", "Boundary Polygon", "Kepmendagri"],
+      "license": "https://opensource.org/licenses/MIT",
+      "hasPart": [
+        {
+          "@type": "APIReference",
+          "name": "Provinces API",
+          "target": "/api/provinces"
+        },
+        {
+          "@type": "APIReference",
+          "name": "Regencies API",
+          "target": "/api/regencies"
+        },
+        {
+          "@type": "APIReference",
+          "name": "Boundaries API",
+          "target": "/api/boundaries/{code}"
+        },
+        {
+          "@type": "APIReference",
+          "name": "Wilayah Detail API",
+          "target": "/api/wilayah/{code}"
+        }
+      ]
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root">
+      <!-- Semantic HTML Fallback for Web Crawlers & Non-JS AI Subagents -->
+      <header>
+        <h1>Wilayah Indonesia REST API & Data Geospasial Boundaries</h1>
+        <p>Layanan Open REST API Kode & Wilayah Administrasi Pemerintahan Indonesia (38 Provinsi, 514 Kab/Kota, 7.277 Kecamatan, 83.771 Desa) beserta MinIO Logo Storage & 90.823 Data Polygon Boundaries GeoJSON.</p>
+      </header>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

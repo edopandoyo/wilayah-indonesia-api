@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /api/
+Allow: /api/docs
+Allow: /llms.txt
+Allow: /wilayah-logo/
+
+Sitemap: /sitemap.xml
