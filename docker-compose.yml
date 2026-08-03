@@ -45,7 +45,7 @@ services:
     depends_on:
       minio:
         condition: service_healthy
-    entrypoint: >
+    entrypoint: |
       /bin/sh -c "
       mc alias set myminio http://minio:9000 ${MINIO_ROOT_USER:-minioadmin} ${MINIO_ROOT_PASSWORD:-minioadmin};
       mc mb myminio/${MINIO_BUCKET_NAME:-wilayah-logo} --ignore-existing;
@@ -55,7 +55,7 @@ services:
         curl -sSL https://github.com/cahyadsn/wilayah_logo/archive/refs/heads/main.zip -o /tmp/logo.zip;
       else
         wget -q https://github.com/cahyadsn/wilayah_logo/archive/refs/heads/main.zip -O /tmp/logo.zip;
-      fi
+      fi;
       unzip -q -o /tmp/logo.zip -d /tmp/logo_extracted;
       echo 'Uploading province logos to MinIO...';
       mc cp --recursive /tmp/logo_extracted/wilayah_logo-main/prov/img/ myminio/${MINIO_BUCKET_NAME:-wilayah-logo}/;
@@ -63,7 +63,7 @@ services:
       for f in /tmp/logo_extracted/wilayah_logo-main/kab/*/img/*.png; do
         if [ -f \"$$f\" ]; then
           mc cp \"$$f\" myminio/${MINIO_BUCKET_NAME:-wilayah-logo}/;
-        fi
+        fi;
       done;
       rm -rf /tmp/logo.zip /tmp/logo_extracted;
       echo 'MinIO setup and logo sync completed successfully!';
