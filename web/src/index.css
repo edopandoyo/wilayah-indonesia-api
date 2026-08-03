@@ -276,8 +276,9 @@ code, pre {
 }
 
 @media (max-width: 850px) {
-  .docs-grid {
+  .docs-grid, .explorer-grid {
     grid-template-columns: 1fr !important;
+    min-width: 0 !important;
   }
   .desktop-docs-sidebar {
     display: none !important;
@@ -287,11 +288,27 @@ code, pre {
   }
 }
 
+@media (max-width: 640px) {
+  .param-desktop-table {
+    display: none !important;
+  }
+  .param-mobile-cards {
+    display: flex !important;
+  }
+}
+
 @media (max-width: 480px) {
   .badge {
     font-size: 0.7rem;
     padding: 3px 8px;
   }
 }
+
+/* Ensure no element causes horizontal scrolling */
+.docs-grid, .explorer-grid, .glass-card, .code-box, .code-body {
+  max-width: 100%;
+  min-width: 0;
+}
+
 
 

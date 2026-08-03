@@ -206,13 +206,15 @@ export const ApiDocumentation: React.FC = () => {
               {selectedEndpoint.description}
             </p>
 
-            {/* Parameters Table */}
+            {/* Parameters Table & Mobile Cards */}
             {selectedEndpoint.params && selectedEndpoint.params.length > 0 && (
-              <div style={{ marginBottom: '24px' }}>
+              <div style={{ marginBottom: '24px', width: '100%', minWidth: 0 }}>
                 <h5 style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '12px' }}>
                   Parameters
                 </h5>
-                <div style={{ overflowX: 'auto', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }}>
+
+                {/* Desktop Table View */}
+                <div className="param-desktop-table" style={{ overflowX: 'auto', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', width: '100%' }}>
                   <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem', minWidth: '450px' }}>
                     <thead>
                       <tr style={{ borderBottom: '1px solid var(--border)', textAlign: 'left', color: 'var(--text-title)', background: 'rgba(255,255,255,0.02)' }}>
@@ -237,6 +239,28 @@ export const ApiDocumentation: React.FC = () => {
                       ))}
                     </tbody>
                   </table>
+                </div>
+
+                {/* Mobile Cards View */}
+                <div className="param-mobile-cards" style={{ display: 'none', flexDirection: 'column', gap: '10px', width: '100%' }}>
+                  {selectedEndpoint.params.map((p, pIdx) => (
+                    <div key={pIdx} style={{ background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '12px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '6px' }}>
+                        <span style={{ fontFamily: 'monospace', color: '#60a5fa', fontWeight: 700, fontSize: '0.9rem' }}>{p.name}</span>
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', background: 'rgba(255,255,255,0.05)', padding: '2px 8px', borderRadius: '4px', border: '1px solid var(--border)' }}>
+                            {p.type}
+                          </span>
+                          <span style={{ fontSize: '0.7rem', fontWeight: 700, color: p.required ? '#ef4444' : '#10b981', background: p.required ? 'rgba(239,68,68,0.12)' : 'rgba(16,185,129,0.12)', padding: '2px 8px', borderRadius: '4px', border: `1px solid ${p.required ? 'rgba(239,68,68,0.3)' : 'rgba(16,185,129,0.3)'}` }}>
+                            {p.required ? 'Wajib' : 'Opsional'}
+                          </span>
+                        </div>
+                      </div>
+                      <p style={{ fontSize: '0.82rem', color: 'var(--text-body)', margin: 0, lineHeight: 1.5 }}>
+                        {p.description}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
