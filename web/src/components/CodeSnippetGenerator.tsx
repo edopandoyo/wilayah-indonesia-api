@@ -68,10 +68,12 @@ else:
 
         <div className="glass-card" style={{ padding: '24px' }}>
           <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-            <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+            <label htmlFor="snippet-endpoint-select" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>
               Pilih Endpoint:
             </label>
             <select
+              id="snippet-endpoint-select"
+              aria-label="Pilih Endpoint untuk Kode Snippet"
               className="input-select"
               style={{ maxWidth: '360px', padding: '8px 12px' }}
               value={selectedEndpoint}

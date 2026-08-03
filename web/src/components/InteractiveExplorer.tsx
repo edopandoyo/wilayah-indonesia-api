@@ -199,10 +199,12 @@ export const InteractiveExplorer: React.FC = () => {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
+                <label htmlFor="prov-select" style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
                   1. Provinsi (Level 1)
                 </label>
                 <select 
+                  id="prov-select"
+                  aria-label="Pilih Provinsi"
                   className="input-select"
                   value={selectedProv}
                   onChange={(e) => handleProvChange(e.target.value)}
@@ -215,10 +217,12 @@ export const InteractiveExplorer: React.FC = () => {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
+                <label htmlFor="reg-select" style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
                   2. Kabupaten / Kota (Level 2)
                 </label>
                 <select 
+                  id="reg-select"
+                  aria-label="Pilih Kabupaten atau Kota"
                   className="input-select"
                   value={selectedReg}
                   disabled={!selectedProv}
@@ -232,10 +236,12 @@ export const InteractiveExplorer: React.FC = () => {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
+                <label htmlFor="dist-select" style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
                   3. Kecamatan (Level 3)
                 </label>
                 <select 
+                  id="dist-select"
+                  aria-label="Pilih Kecamatan"
                   className="input-select"
                   value={selectedDist}
                   disabled={!selectedReg}
@@ -249,10 +255,12 @@ export const InteractiveExplorer: React.FC = () => {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
+                <label htmlFor="vill-select" style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
                   4. Kelurahan / Desa (Level 4)
                 </label>
                 <select 
+                  id="vill-select"
+                  aria-label="Pilih Desa atau Kelurahan"
                   className="input-select"
                   value={selectedVill}
                   disabled={!selectedDist}

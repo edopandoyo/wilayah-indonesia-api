@@ -141,10 +141,12 @@ export const ApiDocumentation: React.FC = () => {
 
         {/* Mobile Dropdown Selector */}
         <div className="mobile-endpoint-selector" style={{ display: 'none', marginBottom: '20px' }}>
-          <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600, marginBottom: '8px' }}>
+          <label htmlFor="mobile-endpoint-select" style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600, marginBottom: '8px' }}>
             Pilih Endpoint API:
           </label>
           <select
+            id="mobile-endpoint-select"
+            aria-label="Pilih Endpoint API"
             className="input-select"
             value={selectedEndpoint.path}
             onChange={(e) => {
@@ -269,6 +271,8 @@ export const ApiDocumentation: React.FC = () => {
             <div style={{ background: 'var(--bg-main)', padding: '16px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
               <div style={{ display: 'flex', gap: '10px', marginBottom: '16px', flexWrap: 'wrap' }}>
                 <input 
+                  id="api-test-input"
+                  aria-label="URL Endpoint Test"
                   type="text" 
                   className="input-select" 
                   value={testUrl} 
