@@ -275,10 +275,23 @@ code, pre {
   }
 }
 
+@media (max-width: 850px) {
+  .docs-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .desktop-docs-sidebar {
+    display: none !important;
+  }
+  .mobile-endpoint-selector {
+    display: block !important;
+  }
+}
+
 @media (max-width: 480px) {
   .badge {
     font-size: 0.7rem;
     padding: 3px 8px;
   }
 }
+
 
