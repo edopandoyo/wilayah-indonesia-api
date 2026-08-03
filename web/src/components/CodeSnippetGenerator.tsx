@@ -84,7 +84,7 @@ else:
             </select>
           </div>
 
-          <div style={{ display: 'flex', borderBottom: '1px solid var(--border)', marginBottom: '16px', gap: '8px' }}>
+          <div style={{ display: 'flex', borderBottom: '1px solid var(--border)', marginBottom: '16px', gap: '8px', overflowX: 'auto', whiteSpace: 'nowrap', paddingBottom: '4px' }}>
             {[
               { key: 'curl', label: 'cURL' },
               { key: 'js', label: 'JavaScript (Fetch)' },

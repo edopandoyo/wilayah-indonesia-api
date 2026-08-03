@@ -236,3 +236,49 @@ code, pre {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.25);
 }
+
+/* Mobile Responsiveness & Touch Optimization */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .desktop-menu {
+    display: none !important;
+  }
+
+  .mobile-toggle-btn {
+    display: flex !important;
+  }
+
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .glass-card {
+    padding: 16px !important;
+    border-radius: var(--radius-sm) !important;
+  }
+
+  .input-select {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+
+  .code-body {
+    font-size: 0.78rem;
+    padding: 12px;
+  }
+
+  .btn {
+    min-height: 42px;
+  }
+}
+
+@media (max-width: 480px) {
+  .badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+}
+

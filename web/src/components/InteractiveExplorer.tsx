@@ -190,9 +190,9 @@ export const InteractiveExplorer: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', marginBottom: '24px' }}>
+        <div className="explorer-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '24px' }}>
           {/* Controls Form */}
-          <div className="glass-card" style={{ padding: '24px' }}>
+          <div className="glass-card" style={{ padding: '20px' }}>
             <h3 style={{ fontSize: '1.1rem', color: 'var(--text-title)', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Play size={18} color="#3b82f6" /> Select Level Region
             </h3>
@@ -267,18 +267,18 @@ export const InteractiveExplorer: React.FC = () => {
 
               {/* Logo Preview Card */}
               {activeLogoCode && (
-                <div style={{ marginTop: '12px', padding: '16px', borderRadius: 'var(--radius-sm)', background: 'var(--bg-main)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{ marginTop: '8px', padding: '14px', borderRadius: 'var(--radius-sm)', background: 'var(--bg-main)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '14px' }}>
                   <img 
                     src={`/wilayah-logo/${activeLogoCode}.png`} 
                     alt="Logo Wilayah"
                     onError={(e) => (e.currentTarget.style.display = 'none')}
-                    style={{ width: '56px', height: '56px', objectFit: 'contain' }}
+                    style={{ width: '48px', height: '48px', objectFit: 'contain', flexShrink: 0 }}
                   />
-                  <div>
+                  <div style={{ overflow: 'hidden' }}>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <Image size={12} color="#10b981" /> Logo MinIO Storage
                     </div>
-                    <div style={{ fontSize: '0.9rem', color: 'var(--text-title)', fontWeight: 700 }}>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--text-title)', fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                       {activeLogoName}
                     </div>
                     <a 
@@ -296,23 +296,23 @@ export const InteractiveExplorer: React.FC = () => {
           </div>
 
           {/* Response Viewer */}
-          <div className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div className="glass-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                 <span className="badge badge-get">GET</span>
-                <span style={{ fontFamily: 'monospace', fontSize: '0.9rem', color: '#f8fafc', fontWeight: 600 }}>
+                <span style={{ fontFamily: 'monospace', fontSize: '0.85rem', color: '#f8fafc', fontWeight: 600, wordBreak: 'break-all' }}>
                   {activeUrl}
                 </span>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 {status && (
                   <span className="badge" style={{ background: status === 200 ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)', color: status === 200 ? '#10b981' : '#ef4444' }}>
                     {status} OK
                   </span>
                 )}
                 {responseTime && (
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                     {responseTime} ms
                   </span>
                 )}
