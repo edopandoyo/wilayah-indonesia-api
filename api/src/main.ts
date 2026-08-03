@@ -1,10 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import compression from 'compression';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Trust proxy for correct client IP detection behind Cloudflare/Nginx
+  const expressApp = app.getHttpAdapter().getInstance();
+  if (expressApp && typeof expressApp.set === 'function') {
+    expressApp.set('trust proxy', 1);
+  }
+
+  // Enable HTTP response compression (gzip/deflate)
+  app.use(compression());
 
   // Enable CORS
   app.enableCors();

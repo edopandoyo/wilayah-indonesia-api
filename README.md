@@ -83,3 +83,7 @@ Service yang berjalan:
 
 Untuk petunjuk lengkap cara push ke GitHub dan deploy 1-click menggunakan **Dokploy VPS**, silakan buka file panduan khusus:
 👉 **[DOKPLOY_DEPLOYMENT.md](file:///c:/projects/wilayah-indonesia/DOKPLOY_DEPLOYMENT.md)**
+
+Untuk petunjuk optimasi Egress, Bandwidth, Cloudflare Edge Caching, & VPS Swap Memory:
+👉 **[CLOUDFLARE_OPTIMIZATION.md](file:///c:/projects/wilayah-indonesia/CLOUDFLARE_OPTIMIZATION.md)**
+
