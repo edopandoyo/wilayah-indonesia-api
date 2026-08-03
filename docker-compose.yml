@@ -40,13 +40,16 @@ services:
       retries: 5
 
   minio_setup:
-    image: minio/mc:latest
+    image: alpine:latest
     container_name: wilayah_minio_setup
     depends_on:
       minio:
         condition: service_healthy
     entrypoint: |
       /bin/sh -c "
+      apk add --no-cache curl tar;
+      curl -sSL https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc;
+      chmod +x /usr/local/bin/mc;
       mc alias set myminio http://minio:9000 ${MINIO_ROOT_USER:-minioadmin} ${MINIO_ROOT_PASSWORD:-minioadmin};
       mc mb myminio/${MINIO_BUCKET_NAME:-wilayah-logo} --ignore-existing;
       mc anonymous set download myminio/${MINIO_BUCKET_NAME:-wilayah-logo};
