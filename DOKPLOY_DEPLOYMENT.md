@@ -76,13 +76,17 @@ MINIO_PUBLIC_URL=https://wilayah.domainanda.com/wilayah-logo
 # NestJS API Port
 PORT=3000
 
+# React Frontend Port (Ubah jika port 8080 di VPS sudah terpakai)
+WEB_PORT=8080
+
 # React Frontend (Biarkan kosong jika berjalan dalam 1 domain via Nginx Proxy)
 VITE_API_BASE_URL=
 VITE_MINIO_PUBLIC_URL=
 ```
 
 > 💡 **Tips Domain & Reverse Proxy Dokploy**:
-> - Jika menggunakan Domain / Traefik / Nginx Proxy di Dokploy, cukup arahkan Domain `wilayah.domainanda.com` ke service `web` (Port `80`).
+> - Traefik/Dokploy menggunakan Port `80` bawaan host VPS. Pengaturan `WEB_PORT=8080` mencegah bentrok port `80` di Dokploy (`Bind for 0.0.0.0:80 failed`).
+> - Di Dokploy pada menu **Domain** / **Traefik Routing**, tambahkan domain Anda (misal: `wilayah.domainanda.com`) dan arahkan **Container Port** ke `80` (atau Host Port `8080`).
 > - Nginx bawaan container `web` akan secara otomatis mem-proxy `/api` ke Backend NestJS dan `/wilayah-logo` ke Storage MinIO.
 
 ---
