@@ -50,13 +50,10 @@ services:
       mc alias set myminio http://minio:9000 ${MINIO_ROOT_USER:-minioadmin} ${MINIO_ROOT_PASSWORD:-minioadmin};
       mc mb myminio/${MINIO_BUCKET_NAME:-wilayah-logo} --ignore-existing;
       mc anonymous set download myminio/${MINIO_BUCKET_NAME:-wilayah-logo};
-      echo 'Downloading logo archive from GitHub repository...';
-      if command -v curl >/dev/null 2>&1; then
-        curl -sSL https://github.com/cahyadsn/wilayah_logo/archive/refs/heads/main.zip -o /tmp/logo.zip;
-      else
-        wget -q https://github.com/cahyadsn/wilayah_logo/archive/refs/heads/main.zip -O /tmp/logo.zip;
-      fi;
-      unzip -q -o /tmp/logo.zip -d /tmp/logo_extracted;
+      echo 'Downloading logo archive (tar.gz) from GitHub repository...';
+      curl -sSL https://github.com/cahyadsn/wilayah_logo/archive/refs/heads/main.tar.gz -o /tmp/logo.tar.gz;
+      mkdir -p /tmp/logo_extracted;
+      tar -xzf /tmp/logo.tar.gz -C /tmp/logo_extracted;
       echo 'Uploading province logos to MinIO...';
       mc cp --recursive /tmp/logo_extracted/wilayah_logo-main/prov/img/ myminio/${MINIO_BUCKET_NAME:-wilayah-logo}/;
       echo 'Uploading regency logos to MinIO...';
@@ -65,7 +62,7 @@ services:
           mc cp \"$$f\" myminio/${MINIO_BUCKET_NAME:-wilayah-logo}/;
         fi;
       done;
-      rm -rf /tmp/logo.zip /tmp/logo_extracted;
+      rm -rf /tmp/logo.tar.gz /tmp/logo_extracted;
       echo 'MinIO setup and logo sync completed successfully!';
       "
 
