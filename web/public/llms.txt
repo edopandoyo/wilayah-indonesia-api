@@ -1,40 +1,31 @@
-# Wilayah Indonesia REST API & Geospasial Boundaries
+# Wilayah Indonesia API
 
-> Layanan Open REST API untuk Data Kode & Wilayah Administrasi Pemerintahan Indonesia (Provinsi, Kabupaten/Kota, Kecamatan, Kelurahan/Desa), Data Pulau, Logo Resmi MinIO Storage, dan Polygon Boundaries (GeoJSON) berbasis Kepmendagri.
+> Layanan Open REST API untuk Data Kode & Wilayah Administrasi Pemerintahan Indonesia (Provinsi, Kabupaten/Kota, Kecamatan, Kelurahan/Desa), Data Pulau, Logo Resmi MinIO Storage, dan Geospasial Polygon Boundaries (GeoJSON) berbasis Kepmendagri.
 
-## Base URLs
-- REST API Base: `/api` (atau `http://localhost:3000/api`)
-- OpenAPI / Swagger Docs: `/api/docs`
-- MinIO Storage Public Logo: `/wilayah-logo/{kode}.png`
+## Core Resources & Documentation
+
+- [OpenAPI Swagger Documentation](/api/docs): Dokumentasi interaktif OpenAPI / Swagger UI
+- [Interactive Explorer & Map](/#playground): Aplikasi playground interaktif dan peta geospasial Leaflet
+- [REST API Endpoints Documentation](/#docs): Referensi rincian seluruh endpoint REST API dan parameter
 
 ## Main API Endpoints
 
-### 1. Administrative Regions (Wilayah)
-- `GET /api/provinces`: Daftar seluruh 38 Provinsi. Mengembalikan array `{ kode, nama, logo_url }`.
-- `GET /api/provinces/:code`: Detail Provinsi berdasarkan kode 2-digit.
-- `GET /api/provinces/:code/regencies`: Daftar Kabupaten/Kota di bawah provinsi tertentu.
-- `GET /api/regencies`: Daftar Kabupaten/Kota dengan filter opsional `province_code`.
-- `GET /api/regencies/:code/districts`: Daftar Kecamatan di bawah Kabupaten/Kota.
-- `GET /api/districts/:code/villages`: Daftar Kelurahan/Desa di bawah Kecamatan.
-- `GET /api/villages/:code`: Detail Kelurahan/Desa.
-- `GET /api/wilayah/search?name={query}&level={1|2|3|4}&page=1&limit=20`: Pencarian nama wilayah realtime.
-- `GET /api/wilayah/:code`: Detail lengkap wilayah beserta parent codes, `coordinates` `{lat, lng}`, GeoJSON polygon `boundary`, `logo_url`, `penduduk`, dan `luas`.
+- [Daftar Provinsi](/api/provinces): GET /api/provinces - Mengembalikan 38 Provinsi di Indonesia
+- [Detail Provinsi](/api/provinces/32): GET /api/provinces/:code - Detail provinsi berdasarkan kode 2-digit (contoh: 32 Jawa Barat)
+- [Kabupaten/Kota di Provinsi](/api/provinces/32/regencies): GET /api/provinces/:code/regencies - Daftar Kabupaten/Kota di bawah provinsi
+- [Daftar Kabupaten/Kota](/api/regencies): GET /api/regencies - Daftar Kabupaten/Kota dengan filter province_code
+- [Kecamatan di Kab/Kota](/api/regencies/32.73/districts): GET /api/regencies/:code/districts - Daftar Kecamatan di bawah Kabupaten/Kota (contoh: 32.73 Kota Bandung)
+- [Kelurahan/Desa di Kecamatan](/api/districts/32.73.01/villages): GET /api/districts/:code/villages - Daftar Kelurahan/Desa di bawah Kecamatan (contoh: 32.73.01)
+- [Pencarian Wilayah](/api/wilayah/search?name=Bandung): GET /api/wilayah/search?name={query} - Pencarian nama wilayah realtime dengan pagination
+- [Detail Hirarki Wilayah & Geometry](/api/wilayah/32.73): GET /api/wilayah/:code - Detail wilayah lengkap beserta parent codes, coordinates, boundary, logo_url, dan data statistik
+- [Geospasial Boundaries Polygon](/api/boundaries/32.73): GET /api/boundaries/:code - Centroid lat/lng dan array polygon coordinates (GeoJSON path)
+- [Sub-Wilayah Polygon Boundaries](/api/boundaries/32/children): GET /api/boundaries/:code/children - Polygon boundaries seluruh sub-wilayah
+- [Daftar Pulau Indonesia](/api/islands?limit=10): GET /api/islands - Daftar pulau-pulau di Indonesia beserta koordinat geospasial
 
-### 2. Geospasial Boundaries (Polygon Coordinates)
-- `GET /api/boundaries/:code`: Mendapatkan koordinat centroid (`lat`, `lng`) serta polygon coordinates (GeoJSON path) untuk kode wilayah.
-- `GET /api/boundaries/:code/children`: Mendapatkan polygon boundaries seluruh sub-wilayah di bawah kode induk.
+## MinIO Public Assets Storage
 
-### 3. Islands (Pulau Indonesia)
-- `GET /api/islands`: Daftar pulau-pulau Indonesia dilengkapi koordinat latitude & longitude.
+- [Logo Resmi Wilayah MinIO Storage](/wilayah-logo/32.73.png): `/wilayah-logo/{kode}.png` - Logo transparan PNG wilayah kabupaten/kota & provinsi
 
-## Format Kode Wilayah
-- Level 1 (Provinsi): 2 digit angka (contoh: `11` = Aceh, `32` = Jawa Barat)
-- Level 2 (Kabupaten/Kota): 5 karakter (contoh: `32.73` = Kota Bandung)
-- Level 3 (Kecamatan): 8 karakter (contoh: `32.73.01` = Kec. Regol)
-- Level 4 (Kelurahan/Desa): 13 karakter (contoh: `32.73.01.1001` = Kel. Balonggede)
+## Optional Specifications
 
-## Panduan Penggunaan AI Agent / LLM
-Untuk menelusuri hirarki wilayah secara terstruktur:
-1. Panggil `GET /api/provinces` untuk mendapatkan daftar provinsi.
-2. Panggil `GET /api/provinces/{province_code}/regencies` untuk daftar kabupaten/kota.
-3. Panggil `GET /api/boundaries/{code}` untuk mengambil koordinat polygon peta geospasial.
+- [Format Kode Wilayah](/#docs): Dokumentasi struktur penomoran kode wilayah (2, 5, 8, dan 13 karakter)
