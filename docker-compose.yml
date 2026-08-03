@@ -2,7 +2,9 @@ name: wilayah-indonesia
 
 services:
   db:
-    image: postgres:16-alpine
+    build:
+      context: .
+      dockerfile: db.Dockerfile
     container_name: wilayah_db
     restart: always
     environment:
@@ -12,7 +14,6 @@ services:
     ports:
       - "${DB_PORT:-5432}:5432"
     volumes:
-      - ./init-db:/docker-entrypoint-initdb.d
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d ${DB_NAME:-wilayah_db}"]
