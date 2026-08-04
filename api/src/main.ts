@@ -30,8 +30,8 @@ async function bootstrap() {
   // Swagger OpenAPI Setup
   const config = new DocumentBuilder()
     .setTitle('Wilayah Indonesia REST API')
-    .setDescription('Layanan REST API untuk Data Kode dan Wilayah Administrasi Pemerintahan serta Pulau Indonesia berdasarkan Kepmendagri terbaru.')
-    .setVersion('1.0.0')
+    .setDescription('Layanan REST API untuk Data Kode dan Wilayah Administrasi Pemerintahan, Kode Pos, serta Pulau Indonesia berdasarkan Kepmendagri terbaru.')
+    .setVersion('1.1.0')
     .addTag('Provinces', 'API untuk data Provinsi')
     .addTag('Regencies', 'API untuk data Kabupaten / Kota')
     .addTag('Districts', 'API untuk data Kecamatan')
