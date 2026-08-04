@@ -39,6 +39,7 @@ async function bootstrap() {
     .addTag('Wilayah General & Search', 'API pencarian dan informasi detail wilayah')
     .addTag('Islands', 'API untuk data Pulau Indonesia')
     .addTag('Boundaries (Polygons & Coordinates)', 'API untuk data batas wilayah dan polygon GeoJSON')
+    .addTag('Kode Pos', 'API untuk data Kode Pos')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
