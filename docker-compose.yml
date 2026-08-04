@@ -51,7 +51,9 @@ services:
       echo 'Setting MinIO alias...';
       mc alias set myminio http://minio:9000 ${MINIO_ROOT_USER:-minioadmin} ${MINIO_ROOT_PASSWORD:-minioadmin} || mc alias set myminio http://minio:9000 minioadmin minioadmin;
       mc mb myminio/${MINIO_BUCKET_NAME:-wilayah-logo} --ignore-existing;
-      mc anonymous set download myminio/${MINIO_BUCKET_NAME:-wilayah-logo} || mc anonymous set public myminio/${MINIO_BUCKET_NAME:-wilayah-logo};
+      mc anonymous set download myminio/${MINIO_BUCKET_NAME:-wilayah-logo};
+      mc anonymous set public myminio/${MINIO_BUCKET_NAME:-wilayah-logo};
+      mc policy set public myminio/${MINIO_BUCKET_NAME:-wilayah-logo};
       echo 'Downloading logo archive (tar.gz) from GitHub repository...';
       curl -sSL https://github.com/cahyadsn/wilayah_logo/archive/refs/heads/main.tar.gz -o /tmp/logo.tar.gz;
       mkdir -p /tmp/logo_extracted;
@@ -59,7 +61,9 @@ services:
       echo 'Uploading all province and regency logos to MinIO...';
       find /tmp/logo_extracted/wilayah_logo-main/ -type f -name \"*.png\" ! -name \"*_thumbs*\" | xargs -I {} mc cp {} myminio/${MINIO_BUCKET_NAME:-wilayah-logo}/;
       echo 'Re-enforcing public download policy on MinIO bucket...';
-      mc anonymous set download myminio/${MINIO_BUCKET_NAME:-wilayah-logo} || mc anonymous set public myminio/${MINIO_BUCKET_NAME:-wilayah-logo};
+      mc anonymous set download myminio/${MINIO_BUCKET_NAME:-wilayah-logo};
+      mc anonymous set public myminio/${MINIO_BUCKET_NAME:-wilayah-logo};
+      mc policy set public myminio/${MINIO_BUCKET_NAME:-wilayah-logo};
       rm -rf /tmp/logo.tar.gz /tmp/logo_extracted;
       echo 'MinIO setup and logo sync completed successfully!';
       sleep infinity;
