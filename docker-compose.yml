@@ -57,6 +57,8 @@ services:
       tar -xzf /tmp/logo.tar.gz -C /tmp/logo_extracted;
       echo 'Uploading all province and regency logos to MinIO...';
       find /tmp/logo_extracted/wilayah_logo-main/ -type f -name \"*.png\" ! -name \"*_thumbs*\" | xargs -I {} mc cp {} myminio/${MINIO_BUCKET_NAME:-wilayah-logo}/;
+      echo 'Re-enforcing public download policy on MinIO bucket...';
+      mc anonymous set download myminio/${MINIO_BUCKET_NAME:-wilayah-logo};
       rm -rf /tmp/logo.tar.gz /tmp/logo_extracted;
       echo 'MinIO setup and logo sync completed successfully!';
       sleep infinity;
