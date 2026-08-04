@@ -7,11 +7,11 @@ CREATE TABLE IF NOT EXISTS wilayah (
 CREATE INDEX IF NOT EXISTS wilayah_nama_idx ON wilayah (nama);
 
 CREATE TABLE IF NOT EXISTS wilayah_pulau (
-    kode VARCHAR(11) PRIMARY KEY,
+    kode VARCHAR(15) PRIMARY KEY,
     nama VARCHAR(255),
     lat DOUBLE PRECISION,
     lng DOUBLE PRECISION,
-    status VARCHAR(10),
+    status VARCHAR(50),
     luas DOUBLE PRECISION,
     notes TEXT
 );
