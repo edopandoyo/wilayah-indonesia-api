@@ -44,7 +44,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
 
-  const port = process.env.PORT || 3000;
+  const port = process.env.API_INTERNAL_PORT || 3000;
   await app.listen(port);
   console.log(`🚀 Wilayah Indonesia API is running on port ${port}`);
   console.log(`📚 Swagger Documentation is available at http://localhost:${port}/api/docs`);

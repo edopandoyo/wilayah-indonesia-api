@@ -73,7 +73,7 @@ services:
     ports:
       - "${PORT:-3000}:3000"
     environment:
-      PORT: 3000
+      API_INTERNAL_PORT: 3000
       DB_HOST: ${DB_HOST:-db}
       DB_PORT: 5432
       DB_USERNAME: ${DB_USERNAME:-postgres}
