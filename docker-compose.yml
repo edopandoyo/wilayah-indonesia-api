@@ -52,6 +52,11 @@ services:
       mc alias set myminio http://minio:9000 ${MINIO_ROOT_USER:-minioadmin} ${MINIO_ROOT_PASSWORD:-minioadmin} || mc alias set myminio http://minio:9000 minioadmin minioadmin;
       mc mb myminio/${MINIO_BUCKET_NAME:-wilayah-logo} --ignore-existing;
       mc anonymous set download myminio/${MINIO_BUCKET_NAME:-wilayah-logo};
+      
+      echo 'Creating public read S3 policy...';
+      printf '{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%s/*\"]}]}' \"${MINIO_BUCKET_NAME:-wilayah-logo}\" > /tmp/policy.json;
+      mc anonymous set-json /tmp/policy.json myminio/${MINIO_BUCKET_NAME:-wilayah-logo} || true;
+
       echo 'Downloading logo archive (tar.gz) from GitHub repository...';
       curl -sSL https://github.com/cahyadsn/wilayah_logo/archive/refs/heads/main.tar.gz -o /tmp/logo.tar.gz;
       mkdir -p /tmp/logo_extracted;
@@ -60,7 +65,8 @@ services:
       find /tmp/logo_extracted/wilayah_logo-main/ -type f -name \"*.png\" ! -name \"*_thumbs*\" | xargs -I {} mc cp {} myminio/${MINIO_BUCKET_NAME:-wilayah-logo}/;
       echo 'Re-enforcing public download policy on MinIO bucket...';
       mc anonymous set download myminio/${MINIO_BUCKET_NAME:-wilayah-logo};
-      rm -rf /tmp/logo.tar.gz /tmp/logo_extracted;
+      mc anonymous set-json /tmp/policy.json myminio/${MINIO_BUCKET_NAME:-wilayah-logo} || true;
+      rm -rf /tmp/logo.tar.gz /tmp/logo_extracted /tmp/policy.json;
       echo 'MinIO setup and logo sync completed successfully!';
       sleep infinity;
       "
