@@ -66,6 +66,42 @@ services:
       echo 'MinIO setup and logo sync completed successfully!';
       "
 
+  db_setup:
+    image: alpine:latest
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint: |
+      /bin/sh -c "
+      apk add --no-cache curl postgresql16-client gzip;
+      export PGPASSWORD=$${DB_PASSWORD:-postgres};
+      echo 'Checking PostgreSQL database tables and auto-seeding if missing...';
+      psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db} -c 'CREATE TABLE IF NOT EXISTS wilayah_kodepos (kode VARCHAR(13) PRIMARY KEY, kodepos VARCHAR(5));';
+      psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db} -c 'CREATE INDEX IF NOT EXISTS kodepos_idx ON wilayah_kodepos (kodepos);';
+      
+      KODEPOS_COUNT=$$(psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db} -t -c 'SELECT count(*) FROM wilayah_kodepos;' 2>/dev/null | tr -d ' ');
+      if [ -z \"$$KODEPOS_COUNT\" ] || [ \"$$KODEPOS_COUNT\" -eq \"0\" ]; then
+        echo 'Seeding 83,762 Kode Pos records into PostgreSQL...';
+        curl -sSL https://raw.githubusercontent.com/edopandoyo/wilayah-indonesia-api/preview/init-db/07-kodepos.sql | psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db};
+        echo 'Kode Pos seeding completed!';
+      else
+        echo \"Kode Pos data verified ($$KODEPOS_COUNT rows).\";
+      fi;
+
+      BOUNDARIES_COUNT=$$(psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db} -t -c 'SELECT count(*) FROM wilayah_boundaries;' 2>/dev/null | tr -d ' ');
+      if [ -z \"$$BOUNDARIES_COUNT\" ] || [ \"$$BOUNDARIES_COUNT\" -eq \"0\" ]; then
+        echo 'Seeding 41,406 GeoJSON Boundaries records into PostgreSQL...';
+        curl -sSL https://raw.githubusercontent.com/edopandoyo/wilayah-indonesia-api/preview/init-db/03-boundaries-part1.sql.gz | gzip -dc | psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db};
+        curl -sSL https://raw.githubusercontent.com/edopandoyo/wilayah-indonesia-api/preview/init-db/04-boundaries-part2.sql.gz | gzip -dc | psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db};
+        curl -sSL https://raw.githubusercontent.com/edopandoyo/wilayah-indonesia-api/preview/init-db/05-boundaries-part3.sql.gz | gzip -dc | psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db};
+        curl -sSL https://raw.githubusercontent.com/edopandoyo/wilayah-indonesia-api/preview/init-db/06-boundaries-part4.sql.gz | gzip -dc | psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db};
+        echo 'Boundaries seeding completed!';
+      else
+        echo \"Boundaries data verified ($$BOUNDARIES_COUNT rows).\";
+      fi;
+      echo 'Database verification and auto-seeding completed successfully!';
+      "
+
   api:
     build:
       context: ./api
