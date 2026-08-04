@@ -39,6 +39,7 @@ services:
 
   minio_setup:
     image: alpine:latest
+    restart: always
     depends_on:
       minio:
         condition: service_healthy
@@ -58,10 +59,12 @@ services:
       find /tmp/logo_extracted/wilayah_logo-main/ -type f -name \"*.png\" ! -name \"*_thumbs*\" | xargs -I {} mc cp {} myminio/${MINIO_BUCKET_NAME:-wilayah-logo}/;
       rm -rf /tmp/logo.tar.gz /tmp/logo_extracted;
       echo 'MinIO setup and logo sync completed successfully!';
+      sleep infinity;
       "
 
   db_setup:
     image: alpine:latest
+    restart: always
     depends_on:
       db:
         condition: service_healthy
@@ -94,6 +97,7 @@ services:
         echo \"Boundaries data verified ($$BOUNDARIES_COUNT rows).\";
       fi;
       echo 'Database verification and auto-seeding completed successfully!';
+      sleep infinity;
       "
 
   api:
