@@ -8,6 +8,7 @@ import { WilayahPulau } from './entities/wilayah-pulau.entity';
 import { WilayahPenduduk } from './entities/wilayah-penduduk.entity';
 import { WilayahLuas } from './entities/wilayah-luas.entity';
 import { WilayahBoundaries } from './entities/wilayah-boundaries.entity';
+import { WilayahKodepos } from './entities/wilayah-kodepos.entity';
 import { ProvincesModule } from './modules/provinces/provinces.module';
 import { RegenciesModule } from './modules/regencies/regencies.module';
 import { DistrictsModule } from './modules/districts/districts.module';
@@ -15,6 +16,7 @@ import { VillagesModule } from './modules/villages/villages.module';
 import { WilayahModule } from './modules/wilayah/wilayah.module';
 import { IslandsModule } from './modules/islands/islands.module';
 import { BoundariesModule } from './modules/boundaries/boundaries.module';
+import { KodeposModule } from './modules/kodepos/kodepos.module';
 import { CacheControlInterceptor } from './common/interceptors/cache-control.interceptor';
 
 @Module({
@@ -38,7 +40,7 @@ import { CacheControlInterceptor } from './common/interceptors/cache-control.int
         username: configService.get<string>('DB_USERNAME', 'postgres'),
         password: configService.get<string>('DB_PASSWORD', 'postgres'),
         database: configService.get<string>('DB_NAME', 'wilayah_db'),
-        entities: [Wilayah, WilayahPulau, WilayahPenduduk, WilayahLuas, WilayahBoundaries],
+        entities: [Wilayah, WilayahPulau, WilayahPenduduk, WilayahLuas, WilayahBoundaries, WilayahKodepos],
         synchronize: false,
       }),
     }),
@@ -49,6 +51,7 @@ import { CacheControlInterceptor } from './common/interceptors/cache-control.int
     WilayahModule,
     IslandsModule,
     BoundariesModule,
+    KodeposModule,
   ],
   providers: [
     {

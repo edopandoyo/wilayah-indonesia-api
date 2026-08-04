@@ -27,7 +27,7 @@ export const Navbar: React.FC = () => {
                 Wilayah <span style={{ color: '#3b82f6' }}>ID</span> API
               </span>
             </a>
-            <span className="badge badge-level hide-mobile" style={{ marginLeft: '8px' }}>v1.0.0</span>
+            <span className="badge badge-level hide-mobile" style={{ marginLeft: '8px' }}>v1.1.0</span>
           </div>
         </div>
 

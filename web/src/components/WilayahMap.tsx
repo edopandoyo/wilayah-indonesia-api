@@ -11,6 +11,7 @@ interface WilayahMapProps {
   lng?: number | null;
   path?: any;
   logoUrl?: string | null;
+  kodepos?: string | null;
 }
 
 export const WilayahMap: React.FC<WilayahMapProps> = ({
@@ -21,6 +22,7 @@ export const WilayahMap: React.FC<WilayahMapProps> = ({
   lng,
   path,
   logoUrl,
+  kodepos,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -117,10 +119,17 @@ export const WilayahMap: React.FC<WilayahMapProps> = ({
           <div style="font-size: 0.95rem; font-weight: 700; color: #111827; margin: 2px 0 4px 0;">
             ${name || 'Wilayah'}
           </div>
-          <div style="font-size: 0.75rem; background: #e0e7ff; color: #3730a3; padding: 2px 8px; border-radius: 9999px; display: inline-block; font-weight: 600; margin-bottom: 6px;">
+          <div style="font-size: 0.75rem; background: #e0e7ff; color: #3730a3; padding: 2px 8px; border-radius: 9999px; display: inline-block; font-weight: 600; margin-bottom: 4px;">
             Kode: ${code}
           </div>
-          <div style="font-size: 0.7rem; color: #4b5563;">
+          ${
+            kodepos
+              ? `<div style="font-size: 0.75rem; background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 9999px; display: inline-block; font-weight: 600; margin-bottom: 6px;">
+                   📮 Kode Pos: ${kodepos}
+                 </div>`
+              : ''
+          }
+          <div style="font-size: 0.7rem; color: #4b5563; margin-top: 2px;">
             📍 Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}
           </div>
         </div>
@@ -136,7 +145,7 @@ export const WilayahMap: React.FC<WilayahMapProps> = ({
     } else if (!hasValidBounds) {
       map.setView([-2.5489, 118.0149], 5);
     }
-  }, [code, name, level, lat, lng, path, logoUrl]);
+  }, [code, name, level, lat, lng, path, logoUrl, kodepos]);
 
   return (
     <div style={{ position: 'relative', width: '100%', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--border)' }}>
@@ -145,8 +154,9 @@ export const WilayahMap: React.FC<WilayahMapProps> = ({
           <MapIcon size={18} color="#3b82f6" /> Peta Geospasial Wilayah & Polygon Boundaries
         </div>
         {code && (
-          <div style={{ fontSize: '0.75rem', background: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', padding: '2px 10px', borderRadius: '12px', fontWeight: 600 }}>
-            {name ? `${name} (${code})` : code}
+          <div style={{ fontSize: '0.75rem', background: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', padding: '2px 10px', borderRadius: '12px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span>{name ? `${name} (${code})` : code}</span>
+            {kodepos && <span style={{ background: '#dcfce7', color: '#15803d', padding: '1px 6px', borderRadius: '8px' }}>📮 ${kodepos}</span>}
           </div>
         )}
       </div>

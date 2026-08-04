@@ -6,6 +6,7 @@ import { Wilayah } from '../../entities/wilayah.entity';
 import { WilayahPenduduk } from '../../entities/wilayah-penduduk.entity';
 import { WilayahLuas } from '../../entities/wilayah-luas.entity';
 import { WilayahBoundaries } from '../../entities/wilayah-boundaries.entity';
+import { WilayahKodepos } from '../../entities/wilayah-kodepos.entity';
 import { getLogoUrl } from '../../common/utils/logo.util';
 
 @Injectable()
@@ -19,6 +20,8 @@ export class WilayahService {
     private readonly luasRepo: Repository<WilayahLuas>,
     @InjectRepository(WilayahBoundaries)
     private readonly boundariesRepo: Repository<WilayahBoundaries>,
+    @InjectRepository(WilayahKodepos)
+    private readonly kodeposRepo: Repository<WilayahKodepos>,
     private readonly configService: ConfigService,
   ) {}
 
@@ -43,7 +46,7 @@ export class WilayahService {
       .take(limit)
       .getMany();
 
-    const items = data.map((item) => {
+    const items = await Promise.all(data.map(async (item) => {
       let levelName = 'Unknown';
       const len = item.kode.length;
       if (len === 2) levelName = 'Provinsi';
@@ -51,13 +54,20 @@ export class WilayahService {
       else if (len === 8) levelName = 'Kecamatan';
       else if (len === 13) levelName = 'Desa/Kelurahan';
 
+      let kodepos: string | null = null;
+      if (len === 13) {
+        const kp = await this.kodeposRepo.findOne({ where: { kode: item.kode } });
+        if (kp) kodepos = kp.kodepos;
+      }
+
       return {
         ...item,
         level: levelName,
         level_code: len === 2 ? 1 : len === 5 ? 2 : len === 8 ? 3 : 4,
         logo_url: getLogoUrl(item.kode, this.configService),
+        kodepos,
       };
-    });
+    }));
 
     return {
       data: items,
@@ -97,10 +107,11 @@ export class WilayahService {
     }
 
     // Additional info
-    const [penduduk, luas, boundary] = await Promise.all([
+    const [penduduk, luas, boundary, kodeposEntry] = await Promise.all([
       this.pendudukRepo.findOne({ where: { kode: code } }),
       this.luasRepo.findOne({ where: { kode: code } }),
       this.boundariesRepo.findOne({ where: { kode: code } }),
+      len === 13 ? this.kodeposRepo.findOne({ where: { kode: code } }) : Promise.resolve(null),
     ]);
 
     let coordinates: { lat: number; lng: number } | null = null;
@@ -127,6 +138,7 @@ export class WilayahService {
       boundary: polygonPath,
       penduduk: penduduk || null,
       luas: luas ? luas.luas : null,
+      kodepos: kodeposEntry ? kodeposEntry.kodepos : null,
     };
   }
 }

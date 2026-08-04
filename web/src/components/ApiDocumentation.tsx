@@ -95,6 +95,22 @@ const endpoints: Endpoint[] = [
     params: [{ name: 'code', type: 'string', required: true, description: 'Kode unik wilayah (Provinsi, Kab/Kota, Kec, Kel)' }],
     sampleUrl: '/api/boundaries/32.73',
   },
+  {
+    method: 'GET',
+    path: '/api/kodepos/search',
+    summary: 'Pencarian Wilayah Berdasarkan Kode Pos',
+    description: 'Mencari daftar Desa/Kelurahan dan kode wilayah berdasarkan 5-digit angka kode pos.',
+    params: [{ name: 'kodepos', type: 'string', required: true, description: 'Kode pos 5 digit (contoh: 23773)' }],
+    sampleUrl: '/api/kodepos/search?kodepos=23773',
+  },
+  {
+    method: 'GET',
+    path: '/api/kodepos/:code',
+    summary: 'Kode Pos Berdasarkan Kode Wilayah',
+    description: 'Mendapatkan data kode pos 5 digit berdasarkan 13-character kode Desa/Kelurahan.',
+    params: [{ name: 'code', type: 'string', required: true, description: 'Kode 13-character Desa/Kelurahan (contoh: 11.01.01.2001)' }],
+    sampleUrl: '/api/kodepos/11.01.01.2001',
+  },
 ];
 
 export const ApiDocumentation: React.FC = () => {

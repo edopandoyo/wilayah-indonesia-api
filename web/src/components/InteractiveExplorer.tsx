@@ -16,6 +16,7 @@ interface MapData {
   lng?: number | null;
   path?: any;
   logoUrl?: string | null;
+  kodepos?: string | null;
 }
 
 export const InteractiveExplorer: React.FC = () => {
@@ -93,6 +94,7 @@ export const InteractiveExplorer: React.FC = () => {
             lng: d.coordinates?.lng ?? null,
             path: d.boundary ?? null,
             logoUrl: d.logo_url ?? null,
+            kodepos: d.kodepos ?? null,
           });
         }
       })
@@ -354,6 +356,7 @@ export const InteractiveExplorer: React.FC = () => {
             lng={mapData.lng}
             path={mapData.path}
             logoUrl={mapData.logoUrl}
+            kodepos={mapData.kodepos}
           />
         </div>
       </div>
