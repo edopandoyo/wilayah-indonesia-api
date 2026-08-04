@@ -14,9 +14,10 @@ services:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d ${DB_NAME:-wilayah_db}"]
-      interval: 5s
+      interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 20
+      start_period: 120s
 
   minio:
     image: minio/minio:RELEASE.2024-03-03T17-50-39Z
