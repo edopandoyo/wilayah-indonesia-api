@@ -20,7 +20,7 @@ export class IslandsController {
     return this.islandsService.findAll(provinceCode, page, limit);
   }
 
-  @Get(':code')
+  @Get(':code([\\w.]+)')
   @ApiOperation({ summary: 'Mendapatkan detail pulau berdasarkan kode' })
   @ApiParam({ name: 'code', example: '11.01.40001', description: 'Kode unik pulau' })
   async findOne(@Param('code') code: string) {

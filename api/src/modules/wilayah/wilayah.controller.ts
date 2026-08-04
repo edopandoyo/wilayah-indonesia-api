@@ -22,7 +22,7 @@ export class WilayahController {
     return this.wilayahService.search(name, level ? Number(level) : undefined, page, limit);
   }
 
-  @Get(':code')
+  @Get(':code([\\w.]+)')
   @ApiOperation({ summary: 'Mendapatkan detail wilayah berdasarkan kode' })
   @ApiParam({ name: 'code', example: '32.73', description: 'Kode wilayah (Provinsi/Kab/Kec/Kel)' })
   async findByCode(@Param('code') code: string) {

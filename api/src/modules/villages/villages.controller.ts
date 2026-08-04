@@ -15,7 +15,7 @@ export class VillagesController {
     return this.villagesService.findAll(districtCode);
   }
 
-  @Get(':code')
+  @Get(':code([\\w.]+)')
   @ApiOperation({ summary: 'Mendapatkan detail Desa/Kelurahan berdasarkan kode' })
   @ApiParam({ name: 'code', example: '11.01.01.2001', description: 'Kode 13-character Desa/Kelurahan (contoh: 11.01.01.2001)' })
   async findOne(@Param('code') code: string): Promise<Wilayah> {

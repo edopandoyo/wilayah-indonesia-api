@@ -15,14 +15,14 @@ export class RegenciesController {
     return this.regenciesService.findAll(provinceCode);
   }
 
-  @Get(':code')
+  @Get(':code([\\w.]+)')
   @ApiOperation({ summary: 'Mendapatkan detail Kabupaten/Kota berdasarkan kode' })
   @ApiParam({ name: 'code', example: '11.01', description: 'Kode 5-character Kabupaten/Kota (contoh: 11.01)' })
   async findOne(@Param('code') code: string): Promise<Wilayah> {
     return this.regenciesService.findOne(code);
   }
 
-  @Get(':code/districts')
+  @Get(':code([\\w.]+)/districts')
   @ApiOperation({ summary: 'Mendapatkan daftar Kecamatan di Kabupaten/Kota tersebut' })
   @ApiParam({ name: 'code', example: '11.01', description: 'Kode 5-character Kabupaten/Kota' })
   async findDistricts(@Param('code') code: string): Promise<Wilayah[]> {
