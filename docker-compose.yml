@@ -115,7 +115,6 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
-    image: wilayah-api:1.1.0
     restart: always
     ports:
       - "${PORT:-3000}:3000"
