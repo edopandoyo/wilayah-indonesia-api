@@ -43,3 +43,10 @@ CREATE TABLE IF NOT EXISTS wilayah_boundaries (
 );
 CREATE INDEX IF NOT EXISTS idx_wilayah_coords_pg ON wilayah_boundaries (lat, lng);
 
+CREATE TABLE IF NOT EXISTS wilayah_kodepos (
+    kode VARCHAR(13) PRIMARY KEY,
+    kodepos VARCHAR(5) DEFAULT NULL
+);
+CREATE INDEX IF NOT EXISTS kodepos_idx ON wilayah_kodepos (kodepos);
+
+
