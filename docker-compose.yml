@@ -88,6 +88,7 @@ services:
       KODEPOS_COUNT=$$(psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db} -t -c 'SELECT count(*) FROM wilayah_kodepos;' 2>/dev/null | tr -d ' ');
       if [ -z \"$$KODEPOS_COUNT\" ] || [ \"$$KODEPOS_COUNT\" -lt \"80000\" ]; then
         echo 'Seeding 83,762 Kode Pos records into PostgreSQL...';
+        psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db} -c 'TRUNCATE TABLE wilayah_kodepos;';
         curl -sSL https://raw.githubusercontent.com/edopandoyo/wilayah-indonesia-api/preview/init-db/07-kodepos.sql | psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db};
         echo 'Kode Pos seeding completed!';
       else
@@ -97,6 +98,7 @@ services:
       BOUNDARIES_COUNT=$$(psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db} -t -c 'SELECT count(*) FROM wilayah_boundaries;' 2>/dev/null | tr -d ' ');
       if [ -z \"$$BOUNDARIES_COUNT\" ] || [ \"$$BOUNDARIES_COUNT\" -lt \"40000\" ]; then
         echo 'Seeding 41,406 GeoJSON Boundaries records into PostgreSQL...';
+        psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db} -c 'TRUNCATE TABLE wilayah_boundaries;';
         curl -sSL https://raw.githubusercontent.com/edopandoyo/wilayah-indonesia-api/preview/init-db/03-boundaries-part1.sql.gz | gzip -dc | psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db};
         curl -sSL https://raw.githubusercontent.com/edopandoyo/wilayah-indonesia-api/preview/init-db/04-boundaries-part2.sql.gz | gzip -dc | psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db};
         curl -sSL https://raw.githubusercontent.com/edopandoyo/wilayah-indonesia-api/preview/init-db/05-boundaries-part3.sql.gz | gzip -dc | psql -h db -U $${DB_USERNAME:-postgres} -d $${DB_NAME:-wilayah_db};
