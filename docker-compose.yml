@@ -54,14 +54,8 @@ services:
       curl -sSL https://github.com/cahyadsn/wilayah_logo/archive/refs/heads/main.tar.gz -o /tmp/logo.tar.gz;
       mkdir -p /tmp/logo_extracted;
       tar -xzf /tmp/logo.tar.gz -C /tmp/logo_extracted;
-      echo 'Uploading province logos to MinIO...';
-      mc cp --recursive /tmp/logo_extracted/wilayah_logo-main/prov/img/ myminio/${MINIO_BUCKET_NAME:-wilayah-logo}/;
-      echo 'Uploading regency logos to MinIO...';
-      for f in /tmp/logo_extracted/wilayah_logo-main/kab/*/img/*.png; do
-        if [ -f \"$$f\" ]; then
-          mc cp \"$$f\" myminio/${MINIO_BUCKET_NAME:-wilayah-logo}/;
-        fi;
-      done;
+      echo 'Uploading all province and regency logos to MinIO...';
+      find /tmp/logo_extracted/wilayah_logo-main/ -type f -name \"*.png\" ! -name \"*_thumbs*\" -exec mc cp {} myminio/${MINIO_BUCKET_NAME:-wilayah-logo}/ \;
       rm -rf /tmp/logo.tar.gz /tmp/logo_extracted;
       echo 'MinIO setup and logo sync completed successfully!';
       "
