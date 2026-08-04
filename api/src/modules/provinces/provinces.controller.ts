@@ -15,14 +15,14 @@ export class ProvincesController {
     return this.provincesService.findAll();
   }
 
-  @Get(':code([\\w.]+)')
+  @Get(':code')
   @ApiOperation({ summary: 'Mendapatkan detail provinsi berdasarkan kode' })
   @ApiParam({ name: 'code', example: '11', description: 'Kode 2-digit Provinsi (contoh: 11 for Aceh)' })
   async findOne(@Param('code') code: string): Promise<Wilayah> {
     return this.provincesService.findOne(code);
   }
 
-  @Get(':code([\\w.]+)/regencies')
+  @Get(':code/regencies')
   @ApiOperation({ summary: 'Mendapatkan daftar Kabupaten/Kota di provinsi tertentu' })
   @ApiParam({ name: 'code', example: '11', description: 'Kode 2-digit Provinsi' })
   async findRegencies(@Param('code') code: string): Promise<Wilayah[]> {

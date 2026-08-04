@@ -35,7 +35,7 @@ export class KodeposController {
     return this.kodeposService.searchByKodepos(kodepos, Number(page), Number(limit));
   }
 
-  @Get(':code([\\w.]+)')
+  @Get(':code')
   @ApiOperation({ summary: 'Mendapatkan kode pos berdasarkan kode wilayah (desa/kelurahan)' })
   @ApiParam({ name: 'code', example: '11.01.01.2001', description: 'Kode 13-character Desa/Kelurahan' })
   async findByCode(@Param('code') code: string) {
